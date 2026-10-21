@@ -1,0 +1,4 @@
+interface:
+  display_name: "建筑与总图辅助校审"
+  short_description: "核查房屋建筑总图、平立剖、面积、标高、门窗、无障碍和设计说明的一致性及有据可查的设计疑点。用于方案、初设或施工图建筑专业"
+  default_prompt: "使用 $aia-architecture，基于本项目已确认的图纸版本、适用依据和处理环境完成建筑与总图辅助校审，列明证据与未覆盖项。"

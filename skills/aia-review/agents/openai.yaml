@@ -1,0 +1,4 @@
+interface:
+  display_name: "建筑设计院 AI 辅助校审总控"
+  short_description: "编排中国大陆房屋建筑设计院内部 AI 辅助校审，建立范围、图纸基线、规范依据、专业疑点、整改闭环及报告。用于成套校审或跨"
+  default_prompt: "使用 $aia-review，基于本项目已确认的图纸版本、适用依据和处理环境完成建筑设计院 AI 辅助校审总控，列明证据与未覆盖项。"

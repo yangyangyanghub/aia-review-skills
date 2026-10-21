@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0",
+  "mode": "synthetic",
+  "project": {
+    "id": "EX-PROJECT",
+    "name": "虚构试验构件记录演示",
+    "region": "合成环境，无实际地址",
+    "building_type": "测试记录，不是真实建筑",
+    "stage": "工作流演示",
+    "review_date": "2026-10-21",
+    "baseline_date": "2026-10-21",
+    "baseline_id": "EX-BASELINE-02",
+    "scope_ref": "synthetic-input.txt:L1-L3（虚构任务与协议）",
+    "requested_disciplines": [
+      "architecture"
+    ],
+    "planned_check_ids": [
+      "CHK-EX-01"
+    ],
+    "data_class": "public",
+    "processing": {
+      "mode": "local",
+      "environment_verified": true,
+      "authorization_ref": null,
+      "sanitization_ref": null
+    }
+  },
+  "sources": [
+    {
+      "id": "SRC-EX-01",
+      "path": "synthetic-input.txt",
+      "sha256": "311fe09693f54fd7511610c79ea55f279b59a000c28eaa3641d3376fc4a9ae41",
+      "revision": "EX-r01",
+      "discipline": "architecture",
+      "capability": "text",
+      "locator_convention": "UTF-8 文本，1起始行号"
+    },
+    {
+      "id": "SRC-EX-02",
+      "path": "synthetic-revised.txt",
+      "sha256": "4e87a13567b3688704fa0fac12c2130aeaceedd22a28f81e8c77769906ec9132",
+      "revision": "EX-r02",
+      "discipline": "architecture",
+      "capability": "text",
+      "locator_convention": "UTF-8 文本，1起始行号"
+    }
+  ],
+  "bases": [
+    {
+      "id": "BAS-EX-01",
+      "kind": "project",
+      "title": "虚构长度试验协议",
+      "identifier": "EX-SKILL-001",
+      "clause": "EX-1",
+      "source_ref": "synthetic-input.txt:L3",
+      "authority": "synthetic",
+      "status": "synthetic",
+      "applicability": "confirmed",
+      "effective_from": null,
+      "effective_to": null,
+      "verified_at": "2026-10-21",
+      "verified_by": "EX-测试身份（虚构）",
+      "transition_ref": null,
+      "rights_basis": "本套件原创合成测试文本",
+      "summary": "长度至少1.5m，仅用于验证记录，不是任何工程标准。"
+    }
+  ],
+  "rules": [
+    {
+      "id": "RULE-EX-01",
+      "version": "1.0",
+      "discipline": "architecture",
+      "basis_ids": [
+        "BAS-EX-01"
+      ],
+      "applicability": {
+        "state": "confirmed",
+        "rationale": "虚构协议只适用于试验构件T-01，不适用于真实工程。"
+      },
+      "status": "verified",
+      "verified_by": "EX-测试身份（虚构）",
+      "verified_at": "2026-10-21",
+      "verification_ref": "EX-虚构测试确认，不是真实审批",
+      "test_ref": "scripts/self_check.py：合成输入与边界验证",
+      "criterion": {
+        "kind": "numeric",
+        "quantity": "test_length",
+        "object_scope": "合成试验构件T-01",
+        "basis_locator": "synthetic-input.txt:L3",
+        "explanation": "验证mm→m换算、signal结果和闭环阻塞。",
+        "operator": "ge",
+        "threshold": "1.5",
+        "unit": "m"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "id": "CHK-EX-01",
+      "rule_id": "RULE-EX-01",
+      "source_ids": [
+        "SRC-EX-01"
+      ],
+      "status": "evaluated",
+      "result": "signal",
+      "reason": "虚构试验长度1000mm归一为1.0m，与虚构协议比较。",
+      "evidence": [
+        {
+          "source_id": "SRC-EX-01",
+          "source_sha256": "311fe09693f54fd7511610c79ea55f279b59a000c28eaa3641d3376fc4a9ae41",
+          "locator": "synthetic-input.txt:L2",
+          "excerpt": "试验构件 T-01 长度标注为1000mm。"
+        }
+      ],
+      "comparison": {
+        "quantity": "test_length",
+        "object_ref": "T-01（合成构件）",
+        "observed_value": "1000",
+        "observed_unit": "mm",
+        "normalized_value": "1.0",
+        "normalized_unit": "m",
+        "operator": "ge",
+        "threshold": "1.5",
+        "threshold_unit": "m",
+        "conditions_verified": true,
+        "conditions_ref": "synthetic-input.txt:L1-L3",
+        "evidence_index": 0
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "F-EX-001",
+      "check_id": "CHK-EX-01",
+      "kind": "rule_deviation",
+      "discipline": "architecture",
+      "title": "试验长度与虚构协议存在偏离，待核对",
+      "observation": "测试标注1000mm=1.0m，低于虚构协议中的1.5m。不是工程规范疑点。",
+      "priority": "P3",
+      "confidence": "high",
+      "basis_ids": [
+        "BAS-EX-01"
+      ],
+      "evidence": [
+        {
+          "source_id": "SRC-EX-01",
+          "source_sha256": "311fe09693f54fd7511610c79ea55f279b59a000c28eaa3641d3376fc4a9ae41",
+          "locator": "synthetic-input.txt:L2",
+          "excerpt": "试验构件 T-01 长度标注为1000mm。"
+        }
+      ],
+      "suggested_action": "仅在测试中补充修订输入与虚构人工记录，以验证闭环。",
+      "review": {
+        "status": "adopted",
+        "actor": "EX-虚构复核人",
+        "at": "2026-10-21T10:00:00+08:00",
+        "record_ref": "EX-虚构处置记录",
+        "note": "仅验证工作流，不存在真实人工审签。",
+        "baseline_id": "EX-BASELINE-01"
+      },
+      "closure": {
+        "status": "closed",
+        "response": "合成修订记录为1600mm=1.6m，测试值高于虚构协议1.5m。",
+        "revision_source_ids": [
+          "SRC-EX-02"
+        ],
+        "recheck": {
+          "actor": "EX-虚构复查人",
+          "at": "2026-10-21T11:00:00+08:00",
+          "record_ref": "EX-虚构复查记录",
+          "baseline_id": "EX-BASELINE-02",
+          "evidence": [
+            {
+              "source_id": "SRC-EX-02",
+              "source_sha256": "4e87a13567b3688704fa0fac12c2130aeaceedd22a28f81e8c77769906ec9132",
+              "locator": "synthetic-revised.txt:L2",
+              "excerpt": "试验构件 T-01 长度标注为1600mm。"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+# Local governance and machine-specific delivery evidence
+/AGENTS.md
+/TASK.md
+/PUBLISH.md
+/validation-results.json
+/MANIFEST.sha256
+
+# Python and local execution output
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.DS_Store
+/work/
+/outputs/
+/review/
+/example-report.md
+
+# Credentials and private configuration
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
