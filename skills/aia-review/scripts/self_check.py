@@ -20,6 +20,16 @@ def sample(complete=False):
     filename='example-complete.json' if complete else 'example-review.json'
     return json.loads((ASSETS/filename).read_text(encoding='utf-8'))
 
+def symlinks_available():
+    """Windows without Developer Mode refuses symlink creation (WinError 1314)."""
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            target=Path(tmp)/'target.txt';target.write_text('x',encoding='utf-8')
+            (Path(tmp)/'link.txt').symlink_to(target)
+        return True
+    except (OSError,NotImplementedError):
+        return False
+
 class ReviewChecks(unittest.TestCase):
     def check(self,d,verify=True,root=ASSETS):
         return validate(d,root,verify)
@@ -257,6 +267,7 @@ class ReviewChecks(unittest.TestCase):
         d=sample(); d['sources'][0]['path']='../SKILL.md'
         self.assertInvalid(d,'escapes the authorized root')
 
+    @unittest.skipUnless(symlinks_available(),'filesystem cannot create symlinks')
     def test_symlink_source_outside_root_is_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)/'root'; root.mkdir()
@@ -273,6 +284,7 @@ class ReviewChecks(unittest.TestCase):
             self.assertFalse(r['schema_valid'])
 
 class ToolChecks(unittest.TestCase):
+    @unittest.skipUnless(symlinks_available(),'filesystem cannot create symlinks')
     def test_inventory_hashes_expected_file_and_skips_symlink(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp); (root/'sheet.txt').write_bytes(b'123')
